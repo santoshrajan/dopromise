@@ -1,0 +1,10 @@
+{
+  "name"          : "dopromise",
+  "description"   : "Simple Promise Library for JavaScript.",
+  "keywords"      : ["promise", "functional", "javascript", "server", "client", "browser"],
+  "author"        : "Santosh Rajan <santrajan@gmail.com>",
+  "repository"    : {"type": "git", "url": "git://github.com/santoshrajan/dopromise.git"},
+  "main"          : "promise.js",
+  "version"       : "0.0.1",
+  "license"       : "MIT"
+}
