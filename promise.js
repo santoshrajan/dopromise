@@ -7,21 +7,24 @@
 
 (function(exports){
 
-    exports.doPromise = function() {
-        var args = arguments, scope = {};
+    var serial = function() {
+        var args = arguments, scope = {}
         function iterator(i) {
-            var func = args[i];
+            var func = args[i]
             if (args.length === i + 1) {
-                func.call(scope);
+                func.call(scope)
             } else {
                 func.call(scope, function() {
-                    iterator(i + 1);
-                });
+                    iterator(i + 1)
+                })
             }
         }
         iterator(0);
     };
 
-    exports.version = "0.0.1";
+
+    exports.version = "0.0.2"
+    exports.doPromise = serial  // for backward compatability
+    exports.serial = serial
 
 })(typeof exports === 'undefined'? this.dopromise={}: exports);

@@ -7,13 +7,13 @@
 
 ### Usage
 #### Nodejs
-    var doPromise = require("dopromise").doPromise;
+    var dopromise = require("dopromise")
 #### Browser
 Just include "promise.js" script file. The global variable `dopromise` is made available to you.
 
 ### Example
 
-The function `doPromise` takes a set of functions as its arguments. Each function is called with a `continuation` function, except the last function. 
+The function `dopromise.serial` takes a set of functions as its arguments. Each function is called with a `continuation` function, except the last function. 
 
 The called function promises to call the `continuation` from within it. It may call the `continuation` synchronously or asynchronously (from inside a callback).
 
@@ -24,9 +24,9 @@ All the called functions are called with the same `this`. So to pass values from
 The example below is a nodejs program to asynchronously copy an input file to an output file. It makes three asynchronous calls. `fs.exists`, `fs.readFile`, `fs.writeFile`
 
     var fs = require("fs");
-    var doPromise = require("dopromise").doPromise;
+    var dopromise = require("dopromise")
     
-    doPromise(
+    dopromise.serial(
         function(continuation) {
             var that = this;
             this.infile = process.argv[2] || "";
