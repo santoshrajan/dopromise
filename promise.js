@@ -20,11 +20,28 @@
             }
         }
         iterator(0);
-    };
+    }
 
+    var parallel = function() {
+        var args = Array.prototype.slice.call(arguments),
+            last = args.pop()
+            counter = args.length
+            scope = {}
+            done = function() {
+                --counter
+                if (counter === 0) {
+                    last.call(scope)
+                }
+            }
 
-    exports.version = "0.0.2"
+        args.forEach(function(f) {
+            f.call(scope, done)
+        })
+    }
+
+    exports.version = "0.0.3"
     exports.doPromise = serial  // for backward compatability
     exports.serial = serial
+    exports.parallel = parallel
 
 })(typeof exports === 'undefined'? this.dopromise={}: exports);

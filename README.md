@@ -8,19 +8,22 @@
 ### Usage
 #### Nodejs
     var dopromise = require("dopromise")
+    
+    dopromise.serial(function1, function2, ...)
+    dopromise.parallel(function1, function2, ...)
+
 #### Browser
 Just include "promise.js" script file. The global variable `dopromise` is made available to you.
 
 ### Example
 
-The function `dopromise.serial` takes a set of functions as its arguments. Each function is called with a `continuation` function, except the last function. 
+The functions `dopromise.serial` and `dopromise.parallel` take a set of functions as its arguments. Each function is called with a `done` function, except the last function. You must call `done` from inside the function or inside the callback. You can mix synchronous and asynchronous functions.
 
-The called function promises to call the `continuation` from within it. It may call the `continuation` synchronously or asynchronously (from inside a callback).
+In tha case of `serial`, if at any instance one of the functions wants to halt the operations, it can simply not call `done`. In the case of parallel every function MUST call `done`.
 
-If at any instance one of the functions wants to halt the operations, it can simply not call the `continuation`.
+All the called functions are called with the same `this` object. So to pass values from one function to the other, or the last fucntion, just attach it to `this`. To access `this` inside a callback, save it as `that`, or if `bind` is supported use `bind`.
 
-All the called functions are called with the same `this`. So to pass values from one function to the other, just attach it to `this`. To access `this` inside a callback, save it as `that`, before making the async call.
-
+Serial example.  
 The example below is a nodejs program to asynchronously copy an input file to an output file. It makes three asynchronous calls. `fs.exists`, `fs.readFile`, `fs.writeFile`
 
     var fs = require("fs");
@@ -67,6 +70,35 @@ The example below is a nodejs program to asynchronously copy an input file to an
         }
     );
 
+Parallel example.
+
+    var dopromise = require('dopromise')
+        request = require('request')
+    
+    dopromise.parallel(
+        function(done) {
+            request('http://www.example.com', function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log("got example")
+                    this.example = body
+                    done()
+                }
+            }.bind(this))       
+        },
+        function(done) {
+            request('http://www.example2.com', function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log("got example2")
+                    this.example2 = body
+                    done()
+                }
+            }.bind(this))       
+        },
+        function() {
+            console.log(this.example.length)
+            console.log(this.example2.length)
+        }
+    )
 
 
 
