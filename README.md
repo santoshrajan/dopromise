@@ -19,9 +19,9 @@ Just include "promise.js" script file. The global variable `dopromise` is made a
 
 The functions `dopromise.serial` and `dopromise.parallel` take a set of functions as its arguments. Each function is called with a `done` function, except the last function. You must call `done` from inside the function or inside the callback. You can mix synchronous and asynchronous functions.
 
-In tha case of `serial`, if at any instance one of the functions wants to halt the operations, it can simply not call `done`. In the case of parallel every function MUST call `done`.
+In the case of `serial`, if at any instance one of the functions wants to halt the operations, it can simply not call `done`. In the case of parallel every function MUST call `done`.
 
-All the called functions are called with the same `this` object. So to pass values from one function to the other, or the last fucntion, just attach it to `this`. To access `this` inside a callback, save it as `that`, or if `bind` is supported use `bind`.
+All the called functions are called with the same `this` object. So to pass values from one function to the other, or the last function, just attach it to `this`. To access `this` inside a callback, save it as `that`, or if `bind` is supported use `bind`.
 
 Serial example.  
 The example below is a nodejs program to asynchronously copy an input file to an output file. It makes three asynchronous calls. `fs.exists`, `fs.readFile`, `fs.writeFile`
@@ -68,7 +68,7 @@ The example below is a nodejs program to asynchronously copy an input file to an
                 }
             });
         }
-    );
+    )
 
 Parallel example.
 
@@ -82,6 +82,8 @@ Parallel example.
                     console.log("got example")
                     this.example = body
                     done()
+                } else {
+                    done()
                 }
             }.bind(this))       
         },
@@ -90,6 +92,8 @@ Parallel example.
                 if (!error && response.statusCode == 200) {
                     console.log("got example2")
                     this.example2 = body
+                    done()
+                } else {
                     done()
                 }
             }.bind(this))       
