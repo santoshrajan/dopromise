@@ -30,33 +30,33 @@ The example below is a nodejs program to asynchronously copy an input file to an
     var dopromise = require("dopromise")
     
     dopromise.serial(
-        function(continuation) {
+        function(done) {
             var that = this;
             this.infile = process.argv[2] || "";
             fs.exists(this.infile, function (exists) {
                 if (exists) {
-                    continuation();
+                    done();
                 } else {
                     console.log("File does not exist: " + that.infile);
                 }
             });
         },
-        function(continuation) {
+        function(done) {
             this.outfile = process.argv[3];
             if (this.outfile) {
-                continuation();
+                done();
             } else {
                 console.log("Output File Name is Required");
             }
         },
-        function(continuation) {
+        function(done) {
             var that = this;
             fs.readFile(this.infile, function (err, data) {
                 if (err) {
                     console.log("Error reading File: " + that.infile);
                 } else {
                     that.contents = data;
-                    continuation();
+                    done();
                 }
             });
         },
