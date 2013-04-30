@@ -9,6 +9,8 @@ dopromise.parallel(
     			console.log("got example")
     			this.example = body
     			done()
+  			} else {
+  				done()
   			}
 		}.bind(this))		
 	},
@@ -19,6 +21,8 @@ dopromise.parallel(
     			console.log("got example2")
     			this.example2 = body
     			done()
+  			} else {
+  				done()
   			}
 		}.bind(this))		
 	},
