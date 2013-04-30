@@ -1,5 +1,5 @@
 var fs = require("fs");
-var dopromise = require("dopromise")
+var dopromise = require("dopromise") 
 
 dopromise.serial(
     function(done) {
