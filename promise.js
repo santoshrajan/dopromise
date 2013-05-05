@@ -47,7 +47,7 @@
         iterator()
     }
 
-    exports.version = "0.0.3"
+    exports.version = "0.0.4"
     exports.doPromise = serial  // for backward compatability
     exports.serial = serial
     exports.parallel = parallel
