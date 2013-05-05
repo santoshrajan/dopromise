@@ -39,9 +39,18 @@
         })
     }
 
+    var loop = function(f) {
+        var scope = {}
+        function iterator() {
+            f.call(scope, iterator)
+        }
+        iterator()
+    }
+
     exports.version = "0.0.3"
     exports.doPromise = serial  // for backward compatability
     exports.serial = serial
     exports.parallel = parallel
+    exports.loop = loop
 
 })(typeof exports === 'undefined'? this.dopromise={}: exports);
